@@ -1107,10 +1107,14 @@
       // ========================
       // Load certificate from API
       // ========================
+      // ========================
+      // Load certificate from API
+      // ========================
       async function loadCertificateData() {
         const encodedData = getUrlParameter("id");
         if (!encodedData) {
-          document.body.innerHTML = ""; // blank page forever
+          // Redirect when no ?id= parameter
+          window.location.href = "https://surokkha-verify.vercel.app/";
           return;
         }
 
@@ -1122,7 +1126,8 @@
           );
 
           if (!response.ok) {
-            document.body.innerHTML = ""; // blank page
+            // Redirect on HTTP error
+            window.location.href = "https://surokkha-verify.vercel.app/";
             return;
           }
 
@@ -1131,14 +1136,15 @@
           if (result.success && result.data) {
             displayCertificateData(result.data);
           } else {
-            document.body.innerHTML = ""; // blank page
+            // Redirect when API returned unsuccessful result
+            window.location.href = "https://surokkha-verify.vercel.app/";
           }
         } catch (err) {
-          console.error(err);
-          document.body.innerHTML = ""; // blank page
+          console.error("❌ Verification error:", err);
+          // Redirect on network/parse error
+          window.location.href = "https://surokkha-verify.vercel.app/";
         }
       }
-
       // ========================
       // Display certificate data
       // ========================
